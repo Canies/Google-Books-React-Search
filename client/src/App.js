@@ -23,10 +23,13 @@ class App extends Component {
   };
 
   handleFormSubmit = event => {
+  console.log(this.state.googleSearch)
     // When the form is submitted, prevent its default behavior, get book update the books state
     event.preventDefault();
     API.getGoogleBooks(this.state.googleSearch)
-      .then(res => this.setState({ books: res.data }))
+      .then(res => {
+        console.log(res)
+        this.setState({ books: res.data.items })})
       .catch(err => console.log(err));
   };
 
@@ -72,11 +75,11 @@ class App extends Component {
                   {this.state.books.map(books => {
                     return (
                       <GoogleListItem
-                        key={books.items.volumeInfo.title}
-                        title={books.items.volumeInfo.title}
-                        href={books.items.volumeInfo.previewLinks}
-                        summary={books.items.volumeInfo.description}
-                        thumbnail={books.items.volumeInfo.imageLinks.thumbnail}
+                        key={books.volumeInfo.title}
+                        title={books.volumeInfo.title}
+                        href={books.volumeInfo.previewLinks}
+                        summary={books.volumeInfo.description}
+                        thumbnail={books.volumeInfo.imageLinks.thumbnail}
                       />
                     );
                   })}
